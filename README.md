@@ -41,3 +41,8 @@ func main() {
 	}
 }
 ```
+
+## See Also
+
+This package is based on the implementation of [goose](https://bitbucket.org/liamstask/goose/src/a9882a2ed799e698d21706769cd8db004ed68f79/cmd/goose/?at=master)
+
