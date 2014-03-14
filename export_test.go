@@ -1,4 +1,4 @@
-package cmd
+package cemedine
 
 func ResetForTesting() {
 	commandLine = &CommandRegistry{}

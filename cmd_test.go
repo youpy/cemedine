@@ -1,22 +1,22 @@
-package cmd_test
+package cemedine_test
 
 import (
 	"errors"
 	"github.com/stretchr/testify/assert"
-	"github.com/youpy/go-cmd"
+	"github.com/youpy/cemedine"
 	"testing"
 )
 
-func goodCommand(command *cmd.Command, args ...string) (err error) {
+func goodCommand(command *cemedine.Command, args ...string) (err error) {
 	return
 }
 
-func badCommand(command *cmd.Command, args ...string) (err error) {
+func badCommand(command *cemedine.Command, args ...string) (err error) {
 	err = errors.New("error")
 	return
 }
 
-func commandWithFlag(command *cmd.Command, args ...string) (err error) {
+func commandWithFlag(command *cemedine.Command, args ...string) (err error) {
 	value := command.Flag.String("foo", "", "usage of foo")
 	command.Flag.Parse(args)
 
@@ -28,37 +28,37 @@ func commandWithFlag(command *cmd.Command, args ...string) (err error) {
 }
 
 func TestExecuteCommand(t *testing.T) {
-	cmd.ResetForTesting()
+	cemedine.ResetForTesting()
 
-	good := cmd.NewCommand("good", "this is usage for good command", "good command", goodCommand)
-	bad := cmd.NewCommand("bad", "this is usage for bad command", "bad command", badCommand)
+	good := cemedine.NewCommand("good", "this is usage for good command", "good command", goodCommand)
+	bad := cemedine.NewCommand("bad", "this is usage for bad command", "bad command", badCommand)
 
-	cmd.Register(good)
-	cmd.Register(bad)
+	cemedine.Register(good)
+	cemedine.Register(bad)
 
-	err := cmd.Exec([]string{"good", "foo"})
+	err := cemedine.Exec([]string{"good", "foo"})
 
 	assert.Nil(t, err)
 
-	err = cmd.Exec([]string{"bad", "foo"})
+	err = cemedine.Exec([]string{"bad", "foo"})
 
 	assert.NotNil(t, err)
 
-	err = cmd.Exec([]string{"xxxx", "foo"})
+	err = cemedine.Exec([]string{"xxxx", "foo"})
 
 	assert.NotNil(t, err)
 }
 
 func TestUsage(t *testing.T) {
-	cmd.ResetForTesting()
+	cemedine.ResetForTesting()
 
-	good := cmd.NewCommand("good", "this is usage for good command", "good command", goodCommand)
-	bad := cmd.NewCommand("bad", "this is usage for bad command", "bad command", badCommand)
+	good := cemedine.NewCommand("good", "this is usage for good command", "good command", goodCommand)
+	bad := cemedine.NewCommand("bad", "this is usage for bad command", "bad command", badCommand)
 
-	cmd.Register(good)
-	cmd.Register(bad)
+	cemedine.Register(good)
+	cemedine.Register(bad)
 
-	usage, err := cmd.Usage()
+	usage, err := cemedine.Usage()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -71,12 +71,12 @@ Commands:
 }
 
 func TestCommandWithFlag(t *testing.T) {
-	cmd.ResetForTesting()
+	cemedine.ResetForTesting()
 
-	command := cmd.NewCommand("test", "this is usage for test command", "test command", commandWithFlag)
-	cmd.Register(command)
+	command := cemedine.NewCommand("test", "this is usage for test command", "test command", commandWithFlag)
+	cemedine.Register(command)
 
-	err := cmd.Exec([]string{"test", "-foo", "bar"})
+	err := cemedine.Exec([]string{"test", "-foo", "bar"})
 
 	assert.Nil(t, err)
 }
