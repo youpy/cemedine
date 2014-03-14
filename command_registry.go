@@ -21,12 +21,16 @@ func (r *CommandRegistry) Register(command *Command) {
 }
 
 func (r *CommandRegistry) Exec(args []string) (err error) {
+	if len(args) == 0 {
+		err = errors.New("Commmand is not supplied")
+		return
+	}
+
 	name := args[0]
 
 	for _, command := range r.commands {
 		if command.Name == name {
-			command.Flag.Parse(args[1:])
-			err = command.Run(command, command.Flag.Args()...)
+			err = command.Run(command, args[1:]...)
 			return
 		}
 	}

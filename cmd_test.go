@@ -15,6 +15,17 @@ func badCommand(command *Command, args ...string) (err error) {
 	return
 }
 
+func commandWithFlag(command *Command, args ...string) (err error) {
+	value := command.Flag.String("foo", "", "usage of foo")
+	command.Flag.Parse(args)
+
+	if *value != "bar" {
+		err = errors.New("error")
+	}
+
+	return
+}
+
 func TestExecuteCommand(t *testing.T) {
 	registry := NewCommandRegistry()
 
@@ -56,4 +67,14 @@ Commands:
     good       good command
     bad        bad command
 `, usage)
+}
+
+func TestCommandWithFlag(t *testing.T) {
+	registry := NewCommandRegistry()
+	command := NewCommand("test", "this is usage for test command", "test command", commandWithFlag)
+	registry.Register(command)
+
+	err := registry.Exec([]string{"test", "-foo", "bar"})
+
+	assert.Nil(t, err)
 }
