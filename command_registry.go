@@ -3,6 +3,7 @@ package cmd
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"text/template"
 )
 
@@ -22,7 +23,15 @@ func (r *CommandRegistry) Register(command *Command) {
 
 func (r *CommandRegistry) Exec(args []string) (err error) {
 	if len(args) == 0 {
-		err = errors.New("Commmand is not supplied")
+		var usage string
+
+		usage, err = r.Usage()
+		if err != nil {
+			return
+		}
+
+		fmt.Println(usage)
+
 		return
 	}
 
