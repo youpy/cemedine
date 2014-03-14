@@ -26,7 +26,14 @@ func runCommand(command *cemedine.Command, args ...string) (err error) {
 }
 
 func main() {
-    cemedine.Register(cemedine.NewCommand("hello", "this is usage", "hello command", runCommand))
+    cemedine.Register(
+        cemedine.NewCommand(
+            "hello",
+            "this is usage for hello command",
+            "hello command",
+            runCommand,
+        ),
+    )
 
 	err := cemedine.Exec(os.Args[1:])
 	if err != nil {
