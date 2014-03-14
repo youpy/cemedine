@@ -57,3 +57,19 @@ Commands:{{range .}}
 
 	return
 }
+
+var commandLine = NewCommandRegistry()
+
+func Register(command *Command) {
+	commandLine.Register(command)
+}
+
+func Exec(args []string) (err error) {
+	err = commandLine.Exec(args)
+	return
+}
+
+func Usage() (usage string, err error) {
+	usage, err = commandLine.Usage()
+	return
+}

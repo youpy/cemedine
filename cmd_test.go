@@ -28,37 +28,37 @@ func commandWithFlag(command *cmd.Command, args ...string) (err error) {
 }
 
 func TestExecuteCommand(t *testing.T) {
-	registry := cmd.NewCommandRegistry()
+	cmd.ResetForTesting()
 
 	good := cmd.NewCommand("good", "this is usage for good command", "good command", goodCommand)
 	bad := cmd.NewCommand("bad", "this is usage for bad command", "bad command", badCommand)
 
-	registry.Register(good)
-	registry.Register(bad)
+	cmd.Register(good)
+	cmd.Register(bad)
 
-	err := registry.Exec([]string{"good", "foo"})
+	err := cmd.Exec([]string{"good", "foo"})
 
 	assert.Nil(t, err)
 
-	err = registry.Exec([]string{"bad", "foo"})
+	err = cmd.Exec([]string{"bad", "foo"})
 
 	assert.NotNil(t, err)
 
-	err = registry.Exec([]string{"xxxx", "foo"})
+	err = cmd.Exec([]string{"xxxx", "foo"})
 
 	assert.NotNil(t, err)
 }
 
 func TestUsage(t *testing.T) {
-	registry := cmd.NewCommandRegistry()
+	cmd.ResetForTesting()
 
 	good := cmd.NewCommand("good", "this is usage for good command", "good command", goodCommand)
 	bad := cmd.NewCommand("bad", "this is usage for bad command", "bad command", badCommand)
 
-	registry.Register(good)
-	registry.Register(bad)
+	cmd.Register(good)
+	cmd.Register(bad)
 
-	usage, err := registry.Usage()
+	usage, err := cmd.Usage()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -71,11 +71,12 @@ Commands:
 }
 
 func TestCommandWithFlag(t *testing.T) {
-	registry := cmd.NewCommandRegistry()
-	command := cmd.NewCommand("test", "this is usage for test command", "test command", commandWithFlag)
-	registry.Register(command)
+	cmd.ResetForTesting()
 
-	err := registry.Exec([]string{"test", "-foo", "bar"})
+	command := cmd.NewCommand("test", "this is usage for test command", "test command", commandWithFlag)
+	cmd.Register(command)
+
+	err := cmd.Exec([]string{"test", "-foo", "bar"})
 
 	assert.Nil(t, err)
 }
