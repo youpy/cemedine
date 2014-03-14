@@ -14,7 +14,7 @@ import (
     "os"
 )
 
-func runCommand(command *cemedine.Command, args ...string) (err error) {
+func helloCommand(command *cemedine.Command, args ...string) (err error) {
     value := command.Flag.String("who", "", "name to say hello to")
     command.Flag.Parse(args)
 
@@ -31,7 +31,7 @@ func main() {
             "hello",
             "this is usage for hello command",
             "hello command",
-            runCommand,
+            helloCommand,
         ),
     )
 
