@@ -47,7 +47,15 @@ $ ./cmd
 
 Commands:
     hello      hello command
+```
 
+```
+$ ./cmd hello -h
+Usage:
+  -who="": name to say hello to
+```
+
+```
 $ ./cmd hello -who hoge
 hello hoge
 ```
