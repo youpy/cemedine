@@ -1,6 +1,7 @@
 # cemedine
 
-A Go library to build subcommand for executable
+cemedine is a Go library to build subcommand for executable.
+It aims to make testing subcommand less painful.
 
 ## Usage
 
@@ -58,6 +59,16 @@ Usage:
 ```
 $ ./cmd hello -who hoge
 hello hoge
+```
+
+Example Test for helloCommand()
+
+```
+func ExampleHelloCommand() {
+    err := helloCommand(&cemedine.Command{}, "-who", "foo")
+    // Output:
+    // hello foo
+}
 ```
 
 ## Documentation

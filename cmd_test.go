@@ -2,6 +2,7 @@ package cemedine_test
 
 import (
 	"errors"
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"github.com/youpy/cemedine"
 	"testing"
@@ -20,7 +21,9 @@ func commandWithFlag(command *cemedine.Command, args ...string) (err error) {
 	value := command.Flag.String("foo", "", "usage of foo")
 	command.Flag.Parse(args)
 
-	if *value != "bar" {
+	if *value == "bar" {
+		fmt.Println("hello bar")
+	} else {
 		err = errors.New("error")
 	}
 
@@ -79,4 +82,10 @@ func TestCommandWithFlag(t *testing.T) {
 	err := cemedine.Exec([]string{"test", "-foo", "bar"})
 
 	assert.Nil(t, err)
+}
+
+func ExampleCommandWithFlag() {
+	commandWithFlag(&cemedine.Command{}, "-foo", "bar")
+	// Output:
+	// hello bar
 }
