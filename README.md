@@ -1,4 +1,4 @@
-# cemedine
+# cemedine [![Build Status](https://travis-ci.org/youpy/cemedine.png?branch=master)](https://travis-ci.org/youpy/cemedine)
 
 cemedine is a Go library to build subcommand for executable.
 It aims to make testing subcommand less painful.
