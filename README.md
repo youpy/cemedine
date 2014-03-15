@@ -63,9 +63,9 @@ hello hoge
 
 Example Test for helloCommand()
 
-```
+```go
 func ExampleHelloCommand() {
-    err := helloCommand(&cemedine.Command{}, "-who", "foo")
+    helloCommand(&cemedine.Command{}, "-who", "foo")
     // Output:
     // hello foo
 }
