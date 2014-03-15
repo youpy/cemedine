@@ -13,6 +13,7 @@ import (
     "github.com/youpy/cemedine"
     "log"
     "os"
+    "errors"
 )
 
 func helloCommand(command *cemedine.Command, args ...string) (err error) {
@@ -21,7 +22,9 @@ func helloCommand(command *cemedine.Command, args ...string) (err error) {
 
 	if *value != "" {
 		fmt.Println("hello " + *value)
-	}
+	} else {
+        err = errors.New("name is empty")
+    }
 
 	return
 }
@@ -68,6 +71,17 @@ func ExampleHelloCommand() {
     helloCommand(&cemedine.Command{}, "-who", "foo")
     // Output:
     // hello foo
+}
+```
+
+You can also check the returning error of the command.
+
+```go
+func TestHelloCommand(t *testing.T) {
+    err := helloCommand(&cemedine.Command{}, "-who", "foo")
+    if err != nil {
+        t.Fatal(err)
+    }
 }
 ```
 
